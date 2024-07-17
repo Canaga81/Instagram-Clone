@@ -20,7 +20,7 @@ const Login = () => {
             variant="outlined"
           />
         </div>
-        <a href="/" className="auth-link">
+        <a href="/register" className="auth-link">
           Go to Register
         </a>
         <Button type="submit" variant="contained" color="success">

@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import './App.css'
+import './App.css';
 import Header from './components/header/Header.jsx';
 import Home from './pages/home/Home';
 import Share from './components/share/Share.jsx';
-// import Profile from './pages/profile/Profile.jsx';
-// import Messenger from './pages/messenger/Messenger.jsx';
-// import Login from './pages/login/Login.jsx';
-// import Register from './pages/register/Register.jsx';
+import { Route, Routes } from 'react-router-dom';
+import Profile from './pages/profile/Profile.jsx';
+import Messenger from './pages/messenger/Messenger.jsx';
+import Login from './pages/login/Login.jsx';
+import Register from './pages/register/Register.jsx';
 
 function App() {
 
@@ -17,13 +18,20 @@ function App() {
   return (
     
     <div className='App'>
+
       <Header handleOpen={handleOpen} />
       <Share open={open} handleClose={handleClose} />
-      <Home />
-      {/* <Profile /> */}
-      {/* <Messenger /> */}
-      {/* <Login /> */}
-      {/* <Register /> */}
+
+      <Routes>
+
+        <Route path='/' element={<Home />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/messenger' element={<Messenger />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+
+      </Routes>
+
     </div>
 
   )
