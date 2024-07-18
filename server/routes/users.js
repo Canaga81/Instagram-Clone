@@ -52,7 +52,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 //^ Get a User
-router.get('/', async (req, res) => {
+router.get('/', async (req, res) => {  //& Axtaris(Search)
 
     const userId = req.query.id;
     const username = req.query.username;
@@ -96,7 +96,7 @@ router.put('/:id/follow', async (req, res) => {
             if(!user.followers.includes(req.body.userId)) { //& Takipcilerinin arasinda yox ise
 
                 await user.updateOne( { $push: {followers: req.body.userId} } ); //& Onun takipci sayisini artirmaq ucun yazilan kod
-                await currentUser.updateOne( { $push: {followings: req.body.userId} } ); //& Menim takipcilerimin sayisini artirmaq ucun yazilan kod
+                await currentUser.updateOne( { $push: {followings: req.body.userId} } ); //& Menim takip elediklerimin sayisini artirmaq ucun yazilan kod
                 
                 res.status(200).json( { message: "User has been followed!" } );
 

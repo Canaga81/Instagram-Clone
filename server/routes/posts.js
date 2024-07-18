@@ -80,11 +80,11 @@ router.get('/:id', async (req, res) => {
 });
 
 //^ Get Timeline Posts
-router.get('/timelina/:userId', async (req, res) => {
+router.get('/timeline/:userId', async (req, res) => {
 
     try {
         
-        const currentUser = await User.findById(req.params.id);  //* Daxil oldugu hesab ⬇️
+        const currentUser = await User.findById(req.params.userId);  //* Daxil oldugu hesab ⬇️
         const userPosts = await Post.find( { userId: currentUser._id } ); //* Daxil oldugu hesabin Post'lari ⬆️
 
         //* Burda Promise.all => ile Takip etdigi butun hesabi cagiririq
@@ -92,7 +92,7 @@ router.get('/timelina/:userId', async (req, res) => {
 
             //* Daxil oldugu hesab'da olan takip ettiklerinin Post'lari
             currentUser.followings.map((friendId) => {
-                Post.find( { userId: friendId } )
+                return Post.find( { userId: friendId } )
             } )
 
         );
@@ -102,6 +102,48 @@ router.get('/timelina/:userId', async (req, res) => {
 
     } catch (error) {
         res.status(500).json(error)
+    }
+
+});
+
+//^ Get User's All Posts
+router.get('/profile/:username', async (req, res) => {
+
+    try {
+        
+        const user = await User.findOne( { username: req.params.username } );
+        const userPosts = await Post.find( { userId: user._id } );
+
+        res.status(200).json(userPosts);
+
+    } catch (error) {
+        res.status(500).json(error);
+    }
+
+});
+
+//^ Like and Dislike a Post
+router.put('/:id/like', async (req, res) => {
+
+    try {
+        
+        const post = await Post.findById(req.params.id);
+
+        if(post.likes.includes(req.body.userId)) {
+
+            await post.updateOne( { $pull: {likes: req.body.userId} } );
+            res.status(200).json( { message: "The post has been unliked." } );
+
+        }
+        else {
+
+            await post.updateOne( { $push: {likes: req.body.userId} } );
+            res.status(200).json( { message: "The post has been liked." } );
+
+        }
+
+    } catch (error) {
+        res.status(500).json(error);
     }
 
 })

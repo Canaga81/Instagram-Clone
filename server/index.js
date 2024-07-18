@@ -9,6 +9,8 @@ const morgan = require('morgan');
 const authRoutes = require('./routes/auth.js');
 const userRoutes = require('./routes/users.js');
 const postRoutes = require('./routes/posts.js');
+const conversationRoutes = require('./routes/conversation.js');
+const messageRoutes = require('./routes/message.js');
 
 //& Mongo DB Database
 const connect = async () => {
@@ -30,6 +32,8 @@ app.use(morgan("common"));
 app.use('/auth',authRoutes);
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
+app.use('/conversations', conversationRoutes);
+app.use('/message', messageRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is runnig on port: ${PORT}`);
